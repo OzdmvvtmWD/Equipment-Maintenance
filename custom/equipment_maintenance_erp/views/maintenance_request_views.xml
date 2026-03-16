@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ================= ACTION ================= -->
+    <record id="action_maintenance_request" model="ir.actions.act_window">
+        <field name="name">Maintenance Requests</field>
+        <field name="res_model">maintenance.request</field>
+        <field name="view_mode">list,form,kanban,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first maintenance request
+            </p>
+        </field>
+    </record>
+
+    <!-- ================= LIST / TREE VIEW ================= -->
+    <record id="view_maintenance_request_list" model="ir.ui.view">
+        <field name="name">maintenance.request.list</field>
+        <field name="model">maintenance.request</field>
+        <field name="arch" type="xml">
+            <list string="Maintenance Requests">
+                <field name="serial_number"/>
+                <field name="equipment_id"/>
+                <field name="user_id"/>
+                <field name="priority"/>
+                <field name="state"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="duration"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ================= FORM VIEW ================= -->
+    <record id="view_maintenance_request_form" model="ir.ui.view">
+        <field name="name">maintenance.request.form</field>
+        <field name="model">maintenance.request</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance Request">
+                <header>
+                    <button name="action_start" string="Start Work" type="object" 
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_done" string="Mark Done" type="object" 
+                            class="oe_highlight" invisible="state != 'progress'"/>
+                    <button name="action_cancel" string="Cancel" type="object" 
+                            invisible="state in ['done', 'cancel']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,progress,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="serial_number" readonly="1"/>
+                        <field name="equipment_id"/>
+                        <field name="user_id"/>
+                        <field name="priority" widget="selection"/>
+                        <field name="state" widget="selection"/>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                    <group>
+                        <field name="start_date" readonly="1"/>
+                        <field name="end_date" readonly="1"/>
+                        <field name="duration" readonly="1"/>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ================= SEARCH VIEW ================= -->
+    <record id="view_maintenance_request_search" model="ir.ui.view">
+        <field name="name">maintenance.request.search</field>
+        <field name="model">maintenance.request</field>
+        <field name="arch" type="xml">
+            <search string="Maintenance Requests">
+                <field name="serial_number"/>
+                <field name="equipment_id"/>
+                <field name="user_id"/>
+                <field name="state"/>
+
+                <filter name="filter_draft" string="Draft" domain="[('state','=','draft')]" />
+                <filter name="filter_in_progress" string="In Progress" domain="[('state','=','progress')]" />
+                <filter name="filter_done" string="Done" domain="[('state','=','done')]" />
+                <filter name="filter_cancelled" string="Cancelled" domain="[('state','=','cancel')]" />
+
+                <group expand="1" string="Group By">
+                    <filter string="Equipment" name="group_equipment" context="{'group_by':'equipment_id'}"/>
+                    <filter string="User" name="group_user" context="{'group_by':'user_id'}"/>
+                    <filter string="State" name="group_state" context="{'group_by':'state'}"/>
+                    <filter string="Priority" name="group_priority" context="{'group_by':'priority'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ================= KANBAN VIEW ================= -->
+    <record id="view_maintenance_request_kanban" model="ir.ui.view">
+        <field name="name">maintenance.request.kanban</field>
+        <field name="model">maintenance.request</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="serial_number"/>
+                <field name="equipment_id"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <strong><field name="serial_number"/></strong>
+                                <div><field name="equipment_id"/></div>
+                                <div><field name="state"/></div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ================= PIVOT VIEW ================= -->
+    <record id="view_maintenance_request_pivot" model="ir.ui.view">
+        <field name="name">maintenance.request.pivot</field>
+        <field name="model">maintenance.request</field>
+        <field name="arch" type="xml">
+            <pivot string="Maintenance Requests Pivot">
+                <field name="equipment_id" type="row"/>
+                <field name="user_id" type="row"/>
+                
+                <field name="state" type="col"/>
+                <field name="priority" type="col"/>
+
+                <field name="duration" type="measure" operator="avg"/>
+            </pivot>
+        </field>
+    </record>
+
+</odoo>

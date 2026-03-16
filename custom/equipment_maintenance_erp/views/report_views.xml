@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ================= ACTION ================= -->
+     <record id="action_report_bysql" model="ir.actions.act_window">
+        <field name="name">Maintenance Analysis Report</field>
+        <field name="res_model">report.bysql</field>
+        <field name="view_mode">pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No data yet!
+            </p>
+            <p>
+                The report will automatically calculate statistics based on your Equipment Categories and Maintenance Requests.
+            </p>
+        </field>
+    </record>
+
+    <!-- ================= PIVOT VIEW ================= -->
+    <record id="view_report_bysql_pivot" model="ir.ui.view">
+        <field name="name">report.bysql.pivot</field>
+        <field name="model">report.bysql</field>
+        <field name="arch" type="xml">
+            <pivot string="Maintenance Analysis" display_quantity="0" sample="1">
+                <field name="category_id" type="row"/>
+                
+                <field name="total_equipment" type="measure"/>
+                <field name="total_requests" type="measure"/>
+                <field name="done_requests" type="measure"/>
+                <field name="overdue_requests" type="measure"/>
+                <field name="avg_duration" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+</odoo>

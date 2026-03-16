@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ================= ACTION ================= -->
+    <record id="action_equipment" model="ir.actions.act_window">
+        <field name="name">Equipment</field>
+        <field name="res_model">equipment.equipment</field>
+        <field name="view_mode">list,form,kanban,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first equipment
+            </p>
+        </field>
+    </record>
+
+
+   <!-- ================= TREE VIEW ================= -->
+   <record id="view_equipment_list" model="ir.ui.view">
+      <field name="name">equipment.list</field>
+      <field name="model">equipment.equipment</field>
+      <field name="arch" type="xml">
+         <list>
+               <field name="name"/>
+               <field name="serial_number"/>
+               <field name="category_id"/>
+               <field name="responsible_id"/>
+               <field name="state"/>
+               <field name="active_requests"/>
+         </list>
+      </field>
+   </record>
+
+
+    <!-- ================= FORM VIEW ================= -->
+    <record id="view_equipment_form" model="ir.ui.view">
+        <field name="name">equipment.form</field>
+        <field name="model">equipment.equipment</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+
+                    <header>
+                        <button name="action_active"
+                                string="Activate"
+                                type="object"
+                                class="btn-primary"/>
+
+                        <button name="action_maintenance"
+                                string="Maintenance"
+                                type="object"/>
+
+                        <button name="action_retired"
+                                string="Retire"
+                                type="object"/>
+
+                        <field name="state" widget="selection"/>
+                    </header>
+
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="serial_number" readonly="1"/>
+                            <field name="category_id"/>
+                        </group>
+
+                        <group>
+                            <field name="responsible_id"/>
+                            <field name="start_date"/>
+                            <field name="active_requests" readonly="1"/>
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- ================= SEARCH VIEW ================= -->
+    <record id="view_equipment_search" model="ir.ui.view">
+        <field name="name">equipment.search</field>
+        <field name="model">equipment.equipment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="serial_number"/>
+                <field name="category_id"/>
+                <field name="responsible_id"/>
+
+                <filter name="active"
+                        string="Active"
+                        domain="[('state','=','active')]"/>
+
+                <filter name="maintenance"
+                        string="Maintenance"
+                        domain="[('state','=','maintenance')]"/>
+
+                <filter name="retired"
+                        string="Retired"
+                        domain="[('state','=','retired')]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="group_category"
+                            string="Category"
+                            context="{'group_by':'category_id'}"/>
+
+                    <filter name="group_state"
+                            string="State"
+                            context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- ================= KANBAN VIEW ================= -->
+    <record id="view_equipment_kanban" model="ir.ui.view">
+        <field name="name">equipment.kanban</field>
+        <field name="model">equipment.equipment</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="state"/>
+                <field name="category_id"/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record">
+
+                            <strong>
+                                <field name="name"/>
+                            </strong>
+
+                            <div>
+                                Category:
+                                <field name="category_id"/>
+                            </div>
+
+                            <div>
+                                State:
+                                <field name="state"/>
+                            </div>
+
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <!-- ================= PIVOT VIEW ================= -->
+    <record id="view_equipment_pivot" model="ir.ui.view">
+      <field name="name">equipment.pivot</field>
+      <field name="model">equipment.equipment</field>
+      <field name="arch" type="xml">
+         <pivot string="Equipment PIVOT">
+               <field name="category_id" type="row"/>   
+               <field name="state" type="col"/>  
+               <field name="active_requests" type="measure" operator="sum"/> 
+         </pivot>
+      </field>
+   </record>
+
+</odoo>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="portal_request_details_template" name="Request Details">
+        <t t-call="website.layout">
+            <div class="container mt-4 mb-5">
+                <div class="mb-3">
+                    <a href="/my/requests" class="btn btn-outline-primary btn-sm">← Back to My Requests</a>
+                </div>
+
+                <div class="card shadow-sm">
+                    <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                        <h4 class="mb-0">Request: <t t-esc="req.serial_number"/></h4>
+                        <span t-attf-class="badge rounded-pill #{'text-bg-success' if req.state == 'done' else 'text-bg-info'}">
+                            <t t-esc="dict(req._fields['state'].selection).get(req.state)"/>
+                        </span>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 border-end">
+                                <h5 class="text-primary border-bottom pb-2">General Information</h5>
+                                <div class="row mb-2">
+                                    <div class="col-5 text-muted">Equipment:</div>
+                                    <div class="col-7"><strong><t t-esc="req.equipment_id.name"/></strong></div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-5 text-muted">Responsible:</div>
+                                    <div class="col-7"><t t-esc="req.user_id.name or 'Not assigned'"/></div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-5 text-muted">Priority:</div>
+                                    <div class="col-7">
+                                        <span t-attf-class="fw-bold #{'text-danger' if req.priority == '2' else 'text-warning' if req.priority == '1' else 'text-success'}">
+                                            <t t-esc="dict(req._fields['priority'].selection).get(req.priority)"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 ps-md-4">
+                                <h5 class="text-primary border-bottom pb-2">Execution Details</h5>
+                                <div class="row mb-2">
+                                    <div class="col-5 text-muted">Start Date:</div>
+                                    <div class="col-7"><span t-field="req.start_date" t-options='{"widget": "datetime"}'/></div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-5 text-muted">End Date:</div>
+                                    <div class="col-7">
+                                        <span t-if="req.end_date" t-field="req.end_date" t-options='{"widget": "datetime"}'/>
+                                        <span t-else="" class="text-muted small italic">Processing...</span>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-5 text-muted">Duration:</div>
+                                    <div class="col-7">
+                                        <t t-esc="'%.2f' % req.duration"/> hours
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h5 class="text-primary border-bottom pb-2">Problem Description</h5>
+                                <div class="p-3 bg-light rounded border">
+                                    <t t-if="req.description">
+                                        <t t-esc="req.description"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="text-muted">No description provided for this request.</span>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-muted small">
+                        Last updated on <span t-field="req.write_date" t-options='{"widget": "datetime"}'/>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    
+
+</odoo>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Main menu -->
+     <menuitem id ='menu_equipment_maintenance_erp_root' name = 'Equipment Maintenance ERP' sequence='1' />
+
+    <!-- Submenu menu -->
+    <menuitem id="menu_equipment" name="Equipment" parent="menu_equipment_maintenance_erp_root" action= "action_equipment" sequence="1" />
+    <menuitem id="menu_maintenance_request" name="Maintenance Requests" parent="menu_equipment_maintenance_erp_root" action = "action_maintenance_request" sequence="2"/>
+    <menuitem id="menu_maintenance_history" name="Maintenance History" parent="menu_equipment_maintenance_erp_root" action = "action_maintenance_history" sequence="3" />
+    <menuitem id="menu_equipment_category" name="Equipment Category" parent="menu_equipment_maintenance_erp_root" action = "action_equipment_category" sequence="4" />
+    <menuitem id="menu_report_by_sql" name="Analytics" parent="menu_equipment_maintenance_erp_root" action = "action_report_bysql" sequence="5" />
+</odoo>

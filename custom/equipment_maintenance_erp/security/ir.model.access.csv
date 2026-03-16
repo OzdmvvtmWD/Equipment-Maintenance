@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_equipment_category_mgr,eq.category.mgr,model_equipment_category,equipment_maintenance_erp.group_managers,1,1,1,1
+access_equipment_category_user,eq.category.user,model_equipment_category,equipment_maintenance_erp.group_employers,1,1,1,0
+access_equipment_mgr,equipment.mgr,model_equipment_equipment,equipment_maintenance_erp.group_managers,1,1,1,1
+access_equipment_user,equipment.user,model_equipment_equipment,equipment_maintenance_erp.group_employers,1,1,1,0
+access_maintenance_request_mgr,maint.request.mgr,model_maintenance_request,equipment_maintenance_erp.group_managers,1,1,1,1
+access_maintenance_request_user,maint.request.user,model_maintenance_request,equipment_maintenance_erp.group_employers,1,1,1,0
+access_maintenance_history_mgr,maint.history.mgr,model_maintenance_history,equipment_maintenance_erp.group_managers,1,1,1,1
+access_maintenance_history_user,maint.history.user,model_maintenance_history,equipment_maintenance_erp.group_employers,1,0,1,0
+access_report_mgr,report.sql.mgr,model_report_bysql,equipment_maintenance_erp.group_managers,1,1,1,1
+access_report_user,report.sql.user,model_report_bysql,equipment_maintenance_erp.group_employers,1,0,0,0

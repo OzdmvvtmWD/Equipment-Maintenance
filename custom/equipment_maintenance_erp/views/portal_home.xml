@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="portal_my_requests_template" name="My Requests">
+        <t t-call="website.layout">
+            <div class="container mt-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3>My Service Requests</h3>
+                    <a href="/my/requests/new" class="btn btn-primary shadow-sm">
+                        <i class="fa fa-plus-circle me-1"/> Add New Request
+                    </a>
+                </div>
+                
+                <t t-if="maintenance_requests">
+                    <div class="table-responsive shadow-sm border rounded" style="max-height: 450px; overflow-y: auto;">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light sticky-top" style="z-index: 1;">
+                                <tr>
+                                    <th class="border-bottom-0">Number</th>
+                                    <th class="border-bottom-0">Equipment</th>
+                                    <th class="border-bottom-0">Status</th>
+                                    <th class="text-end border-bottom-0">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="maintenance_requests" t-as="req">
+                                    <tr>
+                                        <td class="fw-bold align-middle">
+                                            <t t-esc="req.serial_number"/>
+                                        </td>
+                                        <td class="align-middle">
+                                            <t t-esc="req.equipment_id.name"/>
+                                        </td>
+                                        <td class="align-middle">
+                                            <span t-attf-class="badge rounded-pill #{'text-bg-success' if req.state == 'done' else 'text-bg-warning' if req.state == 'progress' else 'text-bg-info'}">
+                                                <t t-esc="dict(req._fields['state'].selection).get(req.state)"/>
+                                            </span>
+                                        </td>
+                                        <td class="text-end align-middle">
+                                            <a t-attf-href="/my/requests/request/#{req.id}" class="btn btn-sm btn-outline-primary">
+                                                View details
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-muted small mt-2">
+                        Total requests: <t t-esc="len(maintenance_requests)"/>
+                    </p>
+                </t>
+
+                <t t-else="">
+                    <div class="alert alert-light border text-center p-5 shadow-sm">
+                        <i class="fa fa-folder-open-o fa-3x text-muted mb-3"/>
+                        <p class="text-muted fs-5">You haven't created any requests yet.</p>
+                        <a href="/my/requests/new" class="btn btn-primary px-4">
+                            Create your first request
+                        </a>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

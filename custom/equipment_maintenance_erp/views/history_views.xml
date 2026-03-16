@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ================= ACTION ================= -->
+    <record id="action_maintenance_history" model="ir.actions.act_window">
+        <field name="name">Maintenance History</field>
+        <field name="res_model">maintenance.history</field>
+        <field name="view_mode">list,form,kanban,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No history
+            </p>
+        </field>
+    </record>
+
+    <!-- ================= LIST VIEW ================= -->
+    <record id="view_maintenance_history_list" model="ir.ui.view">
+        <field name="name">maintenance.history.list</field>
+        <field name="model">maintenance.history</field>
+        <field name="arch" type="xml">
+            <list> 
+                <field name="equipment_id"/>
+                <field name="request_id"/>
+                <field name="description"/>
+                <field name="user_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ================= FORM VIEW ================= -->
+    <record id="view_maintenance_history_form" model="ir.ui.view">
+        <field name="name">maintenance.history.form</field>
+        <field name="model">maintenance.history</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance History">
+                <sheet>
+                    <group>
+                        <field name="equipment_id"/>
+                        <field name="request_id"/>
+                        <field name="user_id"/>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ================= SEARCH VIEW ================= -->
+    <record id="view_maintenance_history_search" model="ir.ui.view">
+        <field name="name">maintenance.history.search</field>
+        <field name="model">maintenance.history</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="equipment_id"/>
+                <field name="request_id"/>
+                <field name="user_id"/>
+                <filter string="By Equipment" name="filter_equipment" domain="[('equipment_id','!=',False)]"/>
+                <filter string="By User" name="filter_user" domain="[('user_id','!=',False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- ================= KANBAN VIEW ================= -->
+    <record id="view_maintenance_history_kanban" model="ir.ui.view">
+        <field name="name">maintenance.history.kanban</field>
+        <field name="model">maintenance.history</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="equipment_id"/>
+                <field name="user_id"/>
+                <field name="start_date"/>
+                <field name="description"/>
+                
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_record_top">
+                                <strong class="o_kanban_record_title">
+                                    <field name="equipment_id"/>
+                                </strong>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <div><field name="user_id"/></div>
+                                <div><field name="start_date"/></div>
+                                <div class="text-muted">
+                                    <field name="description"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ================= PIVOT VIEW ================= -->
+    <record id="view_maintenance_history_pivot" model="ir.ui.view">
+        <field name="name">maintenance.history.pivot</field>
+        <field name="model">maintenance.history</field>
+        <field name="arch" type="xml">
+            <pivot string="Maintenance History Pivot">
+                <field name="equipment_id" type="row"/>
+                <field name="user_id" type="col"/>
+                <field name="start_date" type="row" interval="month"/>
+                <field name="end_date" type="row" interval="month"/>
+
+            </pivot>
+        </field>
+    </record>
+
+</odoo>

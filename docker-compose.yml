@@ -1,0 +1,38 @@
+services:
+  odoo:
+    image: odoo:18.0
+    container_name: odoo_test_project
+    env_file: .env
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+
+    # This allows us to run commands inside the container, this particular command ​uses the postgres user to create odoo_db database, 
+    # the -i base flag is used to initialize the data base and must be removed after running it once,
+    # otherwise the database will be recreated and data will be lost.
+
+    # command: odoo -d postgres_db_test_project -i base --db_user=${POSTGRES_USER} --db_password=${POSTGRES_PASSWORD} --db_host=db 
+    volumes:
+      - odoo-web-data:/var/lib/odoo
+      - ./config:/etc/odoo
+      - ./addons:/mnt/extra-addons
+      - ./custom:/mnt/custom
+
+  db:
+    image: postgres:15
+    container_name: postgres_db_test_project
+    env_file: .env
+
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data/pgdata
+volumes:
+  odoo-web-data:
+  odoo-db-data:
