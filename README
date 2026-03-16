@@ -12,7 +12,7 @@
   1. Клонувати репозиторій.
   2. Виконати 'docker-compose up -d'.
   3. Ініціалізувати базу: docker exec -u 0 odoo_test_project odoo -i base -d postgres_db_test_project.
-  4. Встановити модуль через інтерфейс Odoo.
+  4. Встановити модуль через інтерфейс Odoo (перейти на http://localhost:8069/odoo/apps, знайти серед модулів Equipment Maintenance ERP, нажати Activate).
 
 2. BACKEND ТА БІЗНЕС-ЛОГІКА (ORM)
 ----------------------------------
